@@ -177,7 +177,7 @@ class node:
                     self.public_chain.append(blk)
                 else:
                     self.public_chain.append(blk)    
-                print("at time ",time,"block ",blk.bkid," whose parent is ",blk.parent_bkid," is received by stubborn minner")
+                print("at time ",time,"block ",blk.bkid," whose parent is ",blk.parent_bkid," is received by selfish minner")
                 if self.lead==-1:
                     print("lead is -1 ,no private chain is there and honest block is receive and after public chain is")
                     #self.public_chain.append(blk)
@@ -191,7 +191,7 @@ class node:
                         print(j.bkid)
                     print("public chain finished and lead remains 0")    
                     self.lead=0
-                    self.private_chain.clear()  # as lead =0 therefore no stubborn mining is started so private chain will be empty
+                    self.private_chain.clear()  # as lead =0 therefore no selfish mining is started so private chain will be empty
                 elif self.lead==1: # doubt whetere it will go to 0^' state or just o state only
                     print("lead ==1 , no private chain and final public chain is ")
                     released_block=self.private_chain[-1]
@@ -410,11 +410,11 @@ class node:
                 bx.parent_bkid=pa   
 
         if self.id1==0:
-            Tk=numpy.random.exponential(10/global_data.stubborn_power,1)
+            Tk=numpy.random.exponential(100/global_data.selfish_power,1)
         elif self.id1 in global_data.low_cpu:
-            Tk=numpy.random.exponential(10/global_data.slow_rate,1)
+            Tk=numpy.random.exponential(100/global_data.slow_rate,1)
         else:    
-            Tk=numpy.random.exponential(10/(global_data.slow_rate*10),1)
+            Tk=numpy.random.exponential(100/(global_data.slow_rate*10),1)
         Tk=Tk[0]
 
         ek=Event(self.id1,self.id1,'BLK_GEN',time+Tk,bx,pa)  # this event is to verify the block just created on which node mined is valid and has maximum height after mining time so in between no new longest chian is created or not
@@ -593,11 +593,11 @@ class node:
                         bx.parent_bkid=pa
         # calculate the mining time
         if self.id1==0:
-            Tk=numpy.random.exponential(10/global_data.stubborn_power,1)
+            Tk=numpy.random.exponential(100/global_data.selfish_power,1)
         elif self.id1 in global_data.low_cpu:
-            Tk=numpy.random.exponential(10/global_data.slow_rate,1)
+            Tk=numpy.random.exponential(100/global_data.slow_rate,1)
         else:    
-            Tk=numpy.random.exponential(10/(global_data.slow_rate*10),1)
+            Tk=numpy.random.exponential(100/(global_data.slow_rate*10),1)
         Tk=Tk[0]
          # Tk is to be calculated 
         # create event to verify mining process and also start mining process on new block

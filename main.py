@@ -38,8 +38,8 @@ ttx=ttx/100 # mean time for interarrival between transactions for a node
 z = int(sys.argv[3]) # percentage of slow nodes
 z=int(((n-1)*z)/100)
 low_cpu = int(sys.argv[4]) # percentage of low cpu
-gd.stubborn_power=int(sys.argv[5])  # percentage of power hold by stubborn miner
-gd.stubborn_power=gd.stubborn_power/100
+gd.selfish_power=int(sys.argv[5])  # percentage of power hold by selfish miner
+gd.selfish_power=gd.selfish_power/100
 tk=time.time()+20   # after this much time simulation process will stop
 low_cpu=int(((n-1)*low_cpu)/100)
 li_n=[]
@@ -52,8 +52,8 @@ gd.pij=random.uniform(0.001,0.05)
 gd.slow_node=random.sample(li_n,z)   # randomly selecting z nodes for slow node  gd.slow_node store nodes index which are slow
 gd.low_cpu=random.sample(l_cpu,low_cpu) #randomly selecting nodes for slow cpu gd.low_cpu stores nodes which has low cpu
 #gd.slow_rate=1/(10*n-9*low_cpu)   # gd.slow_rate is fraction hk ie hashing power for low cpu
-#gd.slow_rate=1/(low_cpu+(n-1-low_cpu)*10+gd.stubborn_power)
-gd.slow_rate=(1-gd.stubborn_power)/(10*n-9*low_cpu-10)
+#gd.slow_rate=1/(low_cpu+(n-1-low_cpu)*10+gd.selfish_power)
+gd.slow_rate=(1-gd.selfish_power)/(10*n-9*low_cpu-10)
 #print(gd.slow_node)
 ttx=ttx
 adjacency=[]  # adjacency matrix store  network of nodes graph
@@ -182,7 +182,7 @@ while(len(gd.event_queue_list)>0):
 
 
 #code for making releasing all public chain to every one
-recieved_from_stubborn=[]
+recieved_from_selfish=[]
 for i in range(1,n):
     tot=0
     for j in gd.block_list[i]:
@@ -224,7 +224,7 @@ for i in range(n):
                     gd.time += 1
                     ti=gd.time+Lij
                     ev=Event(i,k,'special',ti,j,j.parent_bkid)
-                    # print(" stubborn has added in the event queue")
+                    # print(" selfish has added in the event queue")
                     gd.event_queue_list.append(ev)
 
     else:
@@ -330,11 +330,11 @@ for j in Node_list[0].Block_tree_dict.keys():
         #print(j)
         Total_number_of_blocks_mined_by_an_adversary=Total_number_of_blocks_mined_by_an_adversary+1
 if Total_number_of_blocks_mined_by_an_adversary!=0:
-    MPU_RATIO_adversiory=blocks_mined_by_adversary_in_mainchain/Total_number_of_blocks_mined_by_an_adversary
-    print(blocks_mined_by_adversary_in_mainchain,Total_number_of_blocks_mined_by_an_adversary)
-    print("MPU RATIO FOR ADERSIORY IN STUBBORN MINING = ",MPU_RATIO_adversiory) 
+  MPU_RATIO_adversiory=blocks_mined_by_adversary_in_mainchain/Total_number_of_blocks_mined_by_an_adversary
+  print(blocks_mined_by_adversary_in_mainchain,Total_number_of_blocks_mined_by_an_adversary)
+  print("mPU RATIO FOR ADERSIORY IN stuborn  mining = ",MPU_RATIO_adversiory) 
 else:
-    print("Total_number_of_blocks_mined_by_an_adversary is zero.")
+    print("Total_number_of_blocks_mined_by_an_adversary is zero")
 
 
 
@@ -350,12 +350,8 @@ for i in range(n):
     #     if j in Node_list[i].Block_tree_dict.keys():
     #         Total_number_of_blocks_generated_across_all_the_nodes=Total_number_of_blocks_generated_across_all_the_nodes+1
 Total_number_of_blocks_generated_across_all_the_nodes=len(x_list)    
-
-if Total_number_of_blocks_generated_across_all_the_nodes != 0:
-    MPU_RATIO_OVERALL=Number_of_block_in_the_main_chain/Total_number_of_blocks_generated_across_all_the_nodes
-    print("MPU ratio for overall in stuborn mining = ",MPU_RATIO_OVERALL)            
-else:
-    print("Total_number_of_blocks_generated_across_all_the_nodes is zero.")
+MPU_RATIO_OVERALL=Number_of_block_in_the_main_chain/Total_number_of_blocks_generated_across_all_the_nodes
+print("mpu ratio for overall in stuborn mining = ",MPU_RATIO_OVERALL)            
 
 
 lg_chain=[]
@@ -367,11 +363,8 @@ for i in lg_chain:
     if i.bkid in Node_list[0].created_block_list_id:
         ad_in_mainchain=ad_in_mainchain+1
 
-if len(lg_chain) != 0:
-    stubborn_proportion=ad_in_mainchain/len(lg_chain)
-    print("stuborn_proportion=",stubborn_proportion)
-else:
-    print("len(lg_chain) is zero.")
+selfish_proportion=ad_in_mainchain/len(lg_chain)
+print("stuborn_proportion=",selfish_proportion)
 
 print("-------------------------------------------------------------------------")
 
@@ -399,7 +392,7 @@ print("slow nodes list")
 print(gd.slow_node)
 print("slow cpu nodes list")
 print(gd.low_cpu)
-print("stuborn power= ",gd.stubborn_power)
+print("stuborn power= ",gd.selfish_power)
 print("low cup hashing power= ",gd.slow_rate)
 
 # i=0
